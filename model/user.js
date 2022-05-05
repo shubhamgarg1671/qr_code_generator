@@ -21,9 +21,21 @@ var UserSchema = new mongoose.Schema({
         type: String,
         minlength: 6
     },
-    isAdmin:Boolean
+    role: {
+        type: String,
+        default: "individual"
+    },
+    plan: {
+        type: String,
+        default: "Free"
+    },
+    expiryDate: {
+        type: String
+    }
 
-})
+}, {
+    timestamps:true
+});
 
 UserSchema.methods.toJSON = function () {
     var user = this;

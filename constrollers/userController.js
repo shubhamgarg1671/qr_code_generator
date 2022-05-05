@@ -4,7 +4,7 @@ const firebaseAdmin = require('../Config/firebaseAdmin.config');
 const { User } = require('../model/user.js');
 
 module.exports.signUp = async (req, res) => {
-    var body = _.pick(req.body, ['email', 'password']);
+    var body = req.body;
     console.log(body);
     var user = new User(body);
     user.save().then(() => {
@@ -85,7 +85,9 @@ module.exports.socialLogin = async (req, res) => {
 		});
 	}
 
-    const user = await User.findOne({ email: email.toLowerCase() });
+	const expiryDate = new Date
+
+    const user = await User.findOne({ email: email.toLowerCase(), name: firebaseUser.name });
 
 	const token = user.generateAuthToken();
 
