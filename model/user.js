@@ -29,10 +29,10 @@ var UserSchema = new mongoose.Schema({
         type: String,
         default: "Free"
     },
-    expiryDate: {
-        type: String
+    expiryTimestamp: {
+        type: Number,
+        default: new Date().getTime()+86400000
     }
-
 }, {
     timestamps:true
 });
