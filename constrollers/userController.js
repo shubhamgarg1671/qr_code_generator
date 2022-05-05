@@ -31,3 +31,63 @@ module.exports.login = async (req, res) => {
     });
 };
 
+module.exports.socialSignup = async (req, res) => {
+    // var uid = _.pick(req.body, ['uid']);
+	const uid  = req.body.uid;
+	const firebaseAuth = firebaseAdmin.auth();
+    const firebaseUser = await firebaseAuth.verifyIdToken(uid).then((user) => {
+		return user;
+	}).catch((e) => {
+		console.log(e);
+		return e;
+	});
+    const email = firebaseUser.email;
+
+
+    if (!email) {
+		return res.json({
+			status: '200',
+			alert: 'Email is not found',
+		});
+	}
+
+    const oldUser = await User.findOne({ email: email.toLowerCase() });
+
+	if (oldUser) {
+		return res.json({
+			status: '200',
+			alert: 'User already exists',
+		});
+	}
+
+    const user = await User.create({
+		name: firebaseUser.name,
+		email: email
+	});
+
+
+	const token = user.generateAuthToken();
+
+	return res.header('x-auth', token).send(user);
+};
+
+module.exports.socialLogin = async (req, res) => {
+    // var uid = _.pick(req.body, ['uid']);
+	const uid  = req.body.uid;
+
+    const firebaseUser = await firebaseAdmin.auth().verifyIdToken(uid);
+    const email = firebaseUser.email;
+
+    if (!email) {
+		return res.json({
+			status: '200',
+			alert: 'Email is not found',
+		});
+	}
+
+    const user = await User.findOne({ email: email.toLowerCase() });
+
+	const token = user.generateAuthToken();
+
+	return res.header('x-auth', token).send(user);
+};
