@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const authenticate= require('../middlewares/authenticate.js');
+const authenticate = require('../middlewares/authenticate');
 const {
 	signUp,
 	login,

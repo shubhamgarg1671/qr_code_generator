@@ -1,8 +1,8 @@
-var {Users} = require('./../models/user');
+var {Users} = require('../model/user.js');
+const jwt = require('jsonwebtoken');
 
-
-var authenticate = (req, res, next) => {
-    try{
+const authenticate = function (req, res, next) {
+    try {
     var token = req.header('x-auth');
 
     if (!token) {
@@ -15,8 +15,9 @@ var authenticate = (req, res, next) => {
     req.user = decoded;
     return next();
     } catch (err) {
+        console.log(err);
         return res.json({ status: '200', alert: 'Token Expires' });
     }
-};
+}
 
-module.exports = {authenticate};
+module.exports = authenticate;
