@@ -108,6 +108,15 @@ module.exports.updateUser = async (req, res) => {
         console.log(e);
         res.send(e);
     }
+};
 
+module.exports.deleteUser = async (req, res) => {
 
+    try {
+        const user = await User.findOneAndDelete({ email: req.body.email });
+        res.send(user);
+    } catch (e) {
+        console.log(e);
+        res.send(e);
+    }
 };
