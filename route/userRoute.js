@@ -7,7 +7,7 @@ const {
 	socialLogin,
 	updateUser,
 	deleteUser
-} = require('../constrollers/userController.js');
+} = require('../controllers/userController.js');
 
 router.route('/signup').post(signUp);
 router.route('/login').post(login);

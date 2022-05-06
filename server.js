@@ -5,9 +5,9 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const userRouter = require('./route/userRoute.js');
-// const adminRouter = require('./Routes/adminRouter');
+const qrRouter = require('./route/qrRoute.js');
 
-const { User } = require('./model/user');
+// const { User } = require('./model/user');
 
 require('dotenv/config');
 app.use(cors());
@@ -17,7 +17,7 @@ app.use(bodyParser.json());
 
 //Routes
 app.use('/api/user', userRouter);
-// app.use('/api/admin', adminRouter);
+app.use('/api/qr', qrRouter);
 
 //env var
 const URL = process.env.DB_URL;

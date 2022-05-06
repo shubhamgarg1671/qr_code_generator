@@ -63,6 +63,7 @@ UserSchema.statics.findByCredentials =function(email, password) {
                 if (res) {
                     resolve(user);
                 } else {
+                    console.log(err);
                     reject(err);
                 }
             });
