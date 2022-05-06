@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-var QrSchema = new mongoose.Schema({
+var UserSchema = new mongoose.Schema({
     creator: String,
     name:String,
     imageString:String,
@@ -18,5 +18,5 @@ var QrSchema = new mongoose.Schema({
     timestamps:true
 })
 
-var Qr = mongoose.model('Qr', QrSchema)
-module.exports = Qr
+var User = mongoose.model('Users', UserSchema)
+module.exports = User

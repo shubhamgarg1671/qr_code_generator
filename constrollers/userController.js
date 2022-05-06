@@ -1,16 +1,16 @@
 const _ = require('lodash');
 const jwt = require('jsonwebtoken');
 const firebaseAdmin = require('../Config/firebaseAdmin.config');
-const { User } = require('../model/qr.js');
+const { User } = require('../model/user.js');
 
 module.exports.signUp = async (req, res) => {
     var body = req.body;
     console.log(body);
-    var qr = new User(body);
-    qr.save().then(() => {
-        return qr.generateAuthToken();
+    var user = new User(body);
+    user.save().then(() => {
+        return user.generateAuthToken();
     }).then((token) => {
-        res.header('x-auth', token).send(qr);
+        res.header('x-auth', token).send(user);
     }).catch((e) => {
         console.log(e);
         res.status(400).send(e);
@@ -19,11 +19,11 @@ module.exports.signUp = async (req, res) => {
 
 module.exports.login = async (req, res) => {
     var body = _.pick(req.body, ['email', 'password']);
-    User.findByCredentials(body.email, body.password).then((qr) => {
-        // res.send(qr); 
-        console.log("qr");
-        return qr.generateAuthToken().then((token) => {
-            res.header('x-auth', token).send(qr);
+    User.findByCredentials(body.email, body.password).then((user) => {
+        // res.send(user); 
+        console.log("user");
+        return user.generateAuthToken().then((token) => {
+            res.header('x-auth', token).send(user);
         })
     }).catch((e) => {
         console.log(e);
@@ -35,8 +35,8 @@ module.exports.socialSignup = async (req, res) => {
     // var uid = _.pick(req.body, ['uid']);
     const uid = req.body.uid;
     const firebaseAuth = firebaseAdmin.auth();
-    const firebaseUser = await firebaseAuth.verifyIdToken(uid).then((qr) => {
-        return qr;
+    const firebaseUser = await firebaseAuth.verifyIdToken(uid).then((user) => {
+        return user;
     }).catch((e) => {
         console.log(e);
         return e;
@@ -60,23 +60,23 @@ module.exports.socialSignup = async (req, res) => {
         });
     }
 
-    const qr = await User.create({
+    const user = await User.create({
         name: firebaseUser.name,
         email: email
     });
 
 
-    const token = qr.generateAuthToken();
+    const token = user.generateAuthToken();
 
-    return res.header('x-auth', token).send(qr);
+    return res.header('x-auth', token).send(user);
 };
 
 module.exports.socialLogin = async (req, res) => {
     // var uid = _.pick(req.body, ['uid']);
     const uid = req.body.uid;
     const firebaseAuth = firebaseAdmin.auth();
-    const firebaseUser = await firebaseAuth.verifyIdToken(uid).then((qr) => {
-        return qr;
+    const firebaseUser = await firebaseAuth.verifyIdToken(uid).then((user) => {
+        return user;
     }).catch((e) => {
         console.log(e);
         return e;
@@ -92,18 +92,18 @@ module.exports.socialLogin = async (req, res) => {
 
     const expiryDate = new Date
 
-    const qr = await User.findOne({ email: email.toLowerCase(), name: firebaseUser.name });
+    const user = await User.findOne({ email: email.toLowerCase(), name: firebaseUser.name });
 
-    const token = qr.generateAuthToken();
+    const token = user.generateAuthToken();
 
-    return res.header('x-auth', token).send(qr);
+    return res.header('x-auth', token).send(user);
 };
 
 module.exports.updateUser = async (req, res) => {
 
     try {
-        const qr = await User.findOneAndUpdate({ email: req.body.email }, req.body, { new: true });
-        res.send(qr);
+        const user = await User.findOneAndUpdate({ email: req.body.email }, req.body, { new: true });
+        res.send(user);
     } catch (e) {
         console.log(e);
         res.send(e);
@@ -113,8 +113,8 @@ module.exports.updateUser = async (req, res) => {
 module.exports.deleteUser = async (req, res) => {
 
     try {
-        const qr = await User.findOneAndDelete({ email: req.body.email });
-        res.send(qr);
+        const user = await User.findOneAndDelete({ email: req.body.email });
+        res.send(user);
     } catch (e) {
         console.log(e);
         res.send(e);
