@@ -74,8 +74,13 @@ module.exports.socialSignup = async (req, res) => {
 module.exports.socialLogin = async (req, res) => {
     // var uid = _.pick(req.body, ['uid']);
 	const uid  = req.body.uid;
-
-    const firebaseUser = await firebaseAdmin.auth().verifyIdToken(uid);
+    const firebaseAuth = firebaseAdmin.auth();
+    const firebaseUser = await firebaseAuth.verifyIdToken(uid).then((user) => {
+		return user;
+	}).catch((e) => {
+		console.log(e);
+		return e;
+	});
     const email = firebaseUser.email;
 
     if (!email) {

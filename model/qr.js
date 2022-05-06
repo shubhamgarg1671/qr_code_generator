@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 var UserSchema = new mongoose.Schema({
+    creator: String,
     name:String,
     imageString:String,
     folder:String,
