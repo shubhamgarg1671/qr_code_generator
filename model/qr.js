@@ -1,7 +1,10 @@
 const mongoose = require('mongoose');
 
 var QrSchema = new mongoose.Schema({
-    creator: String,
+    creator: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref:'User'
+    },
     name:String,
     imageString:String,
     folder:String,

@@ -9,7 +9,7 @@ module.exports.createQr = async (req, res) => {
     const user = req.user;
     const qr = new Qr(body);
     if (!qr.creator)
-        qr.creator = user.id;
+        qr.creator = user._id;
     console.log(qr);
     qr.save().then(() => {
         res.send(qr);
