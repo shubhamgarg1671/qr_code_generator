@@ -9,6 +9,9 @@ var QrSchema = new mongoose.Schema({
     imageString:String,
     folder:String,
     QRtype:String,
+    qrTypeId:{
+        type: mongoose.Schema.Types.ObjectId        
+    },
     isDynamic:Boolean,
     designCode:String,
     frameNumber:String,

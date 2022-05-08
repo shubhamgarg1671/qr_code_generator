@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-var bitcoinQrSchema = new mongoose.Schema({
+var qrTypeSchema = new mongoose.Schema({
     cryptocurrency:String,
     amount:Number,
     receiverBitcoinAddress:String,
@@ -9,5 +9,5 @@ var bitcoinQrSchema = new mongoose.Schema({
     timestamps:true
 })
 
-var bitcoinQr = mongoose.model('bitcoinQr', bitcoinQrSchema)
-module.exports = bitcoinQr
+var qrType = mongoose.model('qrType', qrTypeSchema)
+module.exports = qrType
